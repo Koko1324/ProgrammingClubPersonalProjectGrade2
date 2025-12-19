@@ -1,0 +1,30 @@
+#request,
+#normalButton,
+h1,
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input[type=button],
+#MoveToDashboard{
+  background-color:#ffffff;
+  color:#000000;
+  width: 13em;
+  height: 5em;
+  margin: 10em;
+}
+#discription{
+  padding:0.2em;
+  border: 2px solid #000000;
+}
+.container{
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px;
+}
+.container > div{
+  padding: 0.8em;
+  border: 2px solid #ffffff;
+  background-color: #000000;
+  color:#ffffff;
+}

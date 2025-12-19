@@ -1,0 +1,18 @@
+https://flask-docs-kr.readthedocs.io/ko/latest/quickstart.html
+flask3페이지만 읽기
+앱 생성 (Flask(__name__)) v
+
+라우팅 (@app.route)
+
+요청 받기 (request)
+
+IP 주소 얻기
+
+서버 전역 변수 사용
+
+JSON 응답
+
+서버 실행
+
+---
+지피티한테 길게 물어본거 답변 읽어보고 개발 방향 정리하기.(12/18에 개인연구 보고서 쓰고 하기)
