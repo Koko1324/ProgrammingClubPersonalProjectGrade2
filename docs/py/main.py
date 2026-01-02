@@ -2,21 +2,21 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-request_count = 0
+@app.route("/ping", methods=["POST"])#누군가 /ping으로 요청을 보내면
+def ping():#ping()함수를 실행하라
+    data = request.get_json()
 
-@app.route("/ping")#로컬 링크/ping로 접속 하면 아래 코드 실행
-def ping():
-    global request_count
-    request_count += 1
+    # 안전 검사
+    if data is None:
+        return jsonify({"error": "No JSON received"}), 400
 
-    ip = request.remote_addr
+    ip = data.get("ip")#ip만 저장
+    count = data.get("count")#횟수만 저장
 
-    print(request_count)
-    
-    return jsonify({#리턴 없으면 TypeError오류 남
-        "message": "request received",
+    return jsonify({
+        "status": "ok",
         "ip": ip,
-        "count":request_count
+        "count": count
     })
 
 if __name__ == '__main__':

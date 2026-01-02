@@ -13,9 +13,26 @@
 
     <form id="request">
         <div id="discription">
-            서버에 요청 보낼 수 정하기
-            <input type="number">
+            서버에 요청 보낼 아이피
+            <div class="input-line">
+                <input class="box" type="text" id="ipv4" name="ipv4" placeholder="xxx.xxx.xxx.xxx"/>
+            </div>
+            
+            <br>
+
+            서버에 요청 보낼 횟수  
+            <div class="input-line">
+                <input class="box" type="number" id="count" min="0" max="99" oninput="limitRange(this)">
+            </div>
+
+            <br>
+            
+            <div class="input-line">
+                <input type="submit">
+            </div>
         </div>
     </form>
+    <script src="https://unpkg.com/inputmask/dist/inputmask.min.js"></script>
+    <script src="./js/script.js"></script> 
 </body>
 </html>
