@@ -10,11 +10,23 @@
     <h1>서버 현황 데시보드</h1>
 
     <div class="container">
-        <div>IP별 요청량</div>
-        <div>차단된 IP 목록</div>
-        <div>실시간 초당 요청 수 그래프(RPS)</div>
-        <div>위험 알림이 있는 페이지</div>
+        <div>
+            <h3>IP별 요청량</h3>
+            <pre id="ipStates"></pre><!--JSON 구조 그대로 보여주기 좋음-->
+        </div>
+        <div>
+            <h3>차단된 IP 목록</h3>
+            <ul id="blockedIps"></ul><!--목록 데이터에 최적-->
+        </div>
+        <div>
+            <h3>실시간 초당 요청 수 그래프(RPS)</h3>
+            <canvas id="rpsChart"></canvas><!--나중에 그래프 확장 가능-->
+        </div>
+        <div>
+            <h3>위험 알림이 있는 페이지(js에 있는거 바꿔야함 아니면 이글을 바꾸던지)</h3>
+            <ul id="alerts"></ul>
+        </div>
     </div>
-
+    <script src="./js/Dashboard.js"></script>
 </body>
 </html>
