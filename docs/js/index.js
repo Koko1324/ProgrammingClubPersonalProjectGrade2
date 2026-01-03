@@ -12,7 +12,7 @@ function limitRange(input) {
     if (value > max) input.value = max;
 }
 
-console.log("hi")
+//console.log("hi")
 
 /**
  * [입력 제한] 아이피 입력 제한
@@ -70,4 +70,5 @@ request.addEventListener('submit', function(event) {
     .then(data => {
         console.log(data); // 서버 응답 확인
     });
+
 });
