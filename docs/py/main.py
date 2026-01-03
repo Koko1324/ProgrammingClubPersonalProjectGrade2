@@ -24,6 +24,10 @@ def ping():#ping()함수를 실행하라
     ip = data.get("ip")#ip만 저장
     count = int(data.get("count"))#횟수만 저장
 
+    # 차단 IP 확인: 이미 차단된 IP라면 처리하지 않고 상태 반환
+    if ip in ip_blocked:
+        return jsonify({"status": "blocked", "ip": ip}), 403
+
     #RPS
     #요청이 왔을 때의 시간 계산
     time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
