@@ -19,14 +19,15 @@
             <ul id="blockedIps"></ul><!--목록 데이터에 최적-->
         </div>
         <div>
-            <h3>실시간 초당 요청 수 그래프(RPS)</h3>
-            <canvas id="rpsChart"></canvas><!--나중에 그래프 확장 가능-->
-        </div>
-        <div>
-            <h3>위험 알림이 있는 페이지(js에 있는거 바꿔야함 아니면 이글을 바꾸던지)</h3>
+            <h3>위험 알림</h3>
             <ul id="alerts"></ul>
         </div>
+        <div>
+            <h3>실시간 초당 요청 수 그래프(RPS)</h3>
+            <canvas id="rpsChart" width="600" height="300"></canvas><!--나중에 그래프 확장 가능-->
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./js/Dashboard.js"></script>
 </body>
 </html>

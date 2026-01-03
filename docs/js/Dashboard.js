@@ -28,6 +28,110 @@ fetch("http://127.0.0.1:5000/status")//Flask 서버의 /status API로 HTTP GET �
             li.textContent = `⚠ ${ip} 요청 과다`;//템플릿 문자열을 사용해 IP를 삽입
             alerts.appendChild(li);//<ul> 안에 <li>를 추가해 화면에 표시함
         }
-
+        drawRPSGraph(data.request_logs);//그래프
     })
     .catch(err => console.error(err));//디버깅을 위해 모든 예외를 콘솔에 출력
+
+//그래프 그리는 함수
+function drawRPSGraph(logs) {
+    // ... (데이터 준비 로직은 동일) ...
+    // 초 단위로 요청 수 누적
+    // 시간 순으로 정렬
+    // 최근 10초만 사용 (slicedTimes, slicedValues)
+    // ... 
+
+    const rpsMap = {};
+    logs.forEach(log => {
+        const time = log.time; 
+        if (!rpsMap[time]) { rpsMap[time] = 0; }
+        rpsMap[time] += log.count;
+    });
+
+    const times = Object.keys(rpsMap).sort();
+    const values = times.map(t => rpsMap[t]);
+    const slicedTimes = times.slice(-10);
+    const slicedValues = values.slice(-10);
+    const numPoints = slicedValues.length;
+    if (numPoints < 2) return; // 데이터가 부족하면 그래프를 그리지 않음
+
+    const canvas = document.getElementById("rpsChart");
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 차트 여백 설정
+    const padding = 20;
+    const chartWidth = canvas.width - padding * 2;
+    const chartHeight = canvas.height - padding * 2;
+    
+    const maxRPS = Math.max(...slicedValues, 5); // 최소 5 이상으로 설정하여 0일 때 너무 커지는 것을 방지
+    const stepX = chartWidth / (numPoints - 1);
+    const scaleY = chartHeight / maxRPS;
+
+    // --- 1. 격자 (Grid Lines) 그리기 ---
+    ctx.strokeStyle = "#ccc";
+    ctx.lineWidth = 1;
+    
+    // Y축 수평선 (5개)
+    for (let i = 0; i <= 4; i++) {
+        const y = padding + (chartHeight / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(canvas.width - padding, y);
+        ctx.stroke();
+        
+        // Y축 값 레이블
+        ctx.fillStyle = "#000";
+        ctx.font = "10px Arial";
+        ctx.fillText(
+            (maxRPS * (1 - i / 4)).toFixed(0), 
+            0, // X 좌표
+            y + 3 // Y 좌표 (약간 아래로)
+        );
+    }
+
+    // X축 수직선 및 레이블 (각 데이터 포인트 위치)
+    ctx.fillStyle = "#000";
+    ctx.font = "10px Arial";
+    slicedTimes.forEach((time, i) => {
+        const x = padding + i * stepX;
+        
+        // 수직 격자선
+        ctx.strokeStyle = "#eee";
+        ctx.beginPath();
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, canvas.height - padding);
+        ctx.stroke();
+
+        // X축 레이블 (시간의 초 부분만 표시)
+        const seconds = time.slice(-2);
+        ctx.fillText(seconds, x - 10, canvas.height - padding + 15);
+    });
+    
+    // --- 2. 선 그래프 그리기 ---
+    ctx.beginPath();
+    
+    // 첫 번째 지점으로 이동 (좌표계 변환 적용)
+    const startY = chartHeight - slicedValues[0] * scaleY + padding;
+    ctx.moveTo(padding, startY);
+
+    slicedValues.forEach((value, i) => {
+        const x = padding + i * stepX;
+        const y = chartHeight - value * scaleY + padding;
+        ctx.lineTo(x, y);
+    });
+
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 3; // 선을 더 두껍게
+    ctx.stroke();
+    
+    // --- 3. 데이터 포인트 그리기 ---
+    ctx.fillStyle = "red";
+    slicedValues.forEach((value, i) => {
+        const x = padding + i * stepX;
+        const y = chartHeight - value * scaleY + padding;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2); // 원형 포인트
+        ctx.fill();
+    });
+}
