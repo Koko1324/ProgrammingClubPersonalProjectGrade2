@@ -49,7 +49,7 @@ def ping():#ping()함수를 실행하라
     if ip_states[ip] >=90:
         ip_blocked[ip] = True
 
-    return jsonify({"status": "ok",})#상태 반환 안하고 저장과 누적만 하기 때문에 이 코드를 사용했음
+    return jsonify({"status": "ok",})#저장과 누적만 하기 때문에 이 코드를 사용했음(성공 여부만 판단하면 됨)
 
 @app.route("/status", methods=["GET"])#누군가 /status에서 데이터를 받을 때
 def status():#status()함수를 실행하라

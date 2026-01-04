@@ -70,5 +70,4 @@ request.addEventListener('submit', function(event) {
     .then(data => {
         console.log(data); // 서버 응답 확인
     });
-
 });
